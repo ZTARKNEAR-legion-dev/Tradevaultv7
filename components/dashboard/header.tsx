@@ -5,6 +5,7 @@ import { useData, type TraderLevel } from '@/components/providers/data-provider'
 import { WalletsModal } from '@/components/wallets-modal'
 import { ComingSoonModal } from '@/components/coming-soon-modal'
 import { ConfirmModal } from '@/components/confirm-modal'
+import { CSVUploadModal } from '@/components/csv-upload-modal'
 import { Logo } from '@/components/logo'
 import { Sun, Moon, Wallet, GraduationCap, Zap, Database, Trash2, ChevronDown, TrendingUp } from 'lucide-react'
 
@@ -18,6 +19,7 @@ export function DashboardHeader({ onHome, traderLevel, onToggleLevel, onImport }
   const [showWalletsModal, setShowWalletsModal] = useState(false)
   const [showComingSoon, setShowComingSoon] = useState(false)
   const [showClearConfirm, setShowClearConfirm] = useState(false)
+  const [showCSVUpload, setShowCSVUpload] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('theme') as 'dark' | 'light' | null
@@ -72,7 +74,7 @@ export function DashboardHeader({ onHome, traderLevel, onToggleLevel, onImport }
 
         {/* Import data */}
         <button
-          onClick={() => setShowComingSoon(true)}
+          onClick={() => setShowCSVUpload(true)}
           className="flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/[0.06] px-2.5 py-1.5 text-[10px] font-semibold text-primary transition-all hover:bg-primary/10"
         >
           <Database className="h-3 w-3" />
@@ -160,6 +162,13 @@ export function DashboardHeader({ onHome, traderLevel, onToggleLevel, onImport }
         confirmText="Yes, Delete All"
         cancelText="Keep Trades"
         variant="danger"
+      />
+      <CSVUploadModal
+        open={showCSVUpload}
+        onClose={() => setShowCSVUpload(false)}
+        onUploadSuccess={() => {
+          setShowCSVUpload(false)
+        }}
       />
     </header>
   )

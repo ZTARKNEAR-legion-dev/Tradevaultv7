@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { TrendingUp, Upload, Shield, Zap, Lock, Moon, Sun, ArrowRight, Play, BarChart3 } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { WalletsModal } from '@/components/wallets-modal'
+import { CSVUploadModal } from '@/components/csv-upload-modal'
 
 interface Props {
   onDemo: () => void
@@ -24,6 +25,7 @@ export function LandingPage({ onDemo, onReal, onUpload }: Props) {
   const [isDark, setIsDark] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [showWalletsModal, setShowWalletsModal] = useState(false)
+  const [showCSVUpload, setShowCSVUpload] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('theme')
@@ -97,11 +99,11 @@ export function LandingPage({ onDemo, onReal, onUpload }: Props) {
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </button>
             <button
-              disabled
-              className="group flex w-full items-center justify-center gap-2 rounded-xl border border-border/50 bg-card/50 px-8 py-3.5 text-sm font-bold text-muted-foreground cursor-not-allowed sm:w-auto"
+              onClick={() => setShowCSVUpload(true)}
+              className="group flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-8 py-3.5 text-sm font-bold text-foreground transition-all hover:bg-secondary sm:w-auto"
             >
               <Upload className="h-4 w-4" />
-              Coming Soon
+              Upload CSV
             </button>
             <button
               onClick={() => setShowWalletsModal(true)}
@@ -150,6 +152,13 @@ export function LandingPage({ onDemo, onReal, onUpload }: Props) {
       </footer>
 
       <WalletsModal open={showWalletsModal} onClose={() => setShowWalletsModal(false)} />
+      <CSVUploadModal
+        open={showCSVUpload}
+        onClose={() => setShowCSVUpload(false)}
+        onUploadSuccess={() => {
+          setShowCSVUpload(false)
+        }}
+      />
     </div>
   )
 }
